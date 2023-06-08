@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="numberBombGame.css">
+        <title></title>
+    </head>
+    <body>
+        <div class="box">
+            <p>TEst</p>
+        </div>
+        <div id="wholeSlider">
+            <div id="sliderBar">
+                <div id="sliderTrack"></div>
+            </div>
+            <div id="boundaryThumbs">
+                <input type="range" id="minThumb" min="0" max="100" value="0" disabled>
+                <input type="range" id="maxThumb" min="0" max="100" value="100" disabled>
+            </div>
+            <div id="boundaryNumbers">
+                <p id="minNumber">test</p>
+                <p id="maxNumber">test</p>
+            </div>
+            <div id="userSlider">
+                <input type="range" oninput="updateTextboxThruThumb()" min="0" max="100" value="50" id="userThumb" step="1">
+                <div id="userValueContainer">
+                    <input type="text" onChange="updateThumbThruTextbox()" min="0" max="100" value="50" id="userValue">
+                </div>
+            </div>
+            <button onclick="checkNumber()" id="buttonCheck">Check</button>
+        </div>
+        <script src="slider.js"></script>
+    </body>
+</html>
