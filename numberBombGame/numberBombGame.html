@@ -7,25 +7,23 @@
         <div class="box">
             <p>TEst</p>
         </div>
-        <div id="wholeSlider">
-            <div id="sliderBar">
+        <div class="wholeSlider">
+            <div class="sliderBar">
                 <div id="sliderTrack"></div>
             </div>
-            <div id="boundaryThumbs">
-                <input type="range" id="minThumb" min="0" max="100" value="0" disabled>
-                <input type="range" id="maxThumb" min="0" max="100" value="100" disabled>
-            </div>
-            <div id="boundaryNumbers">
+            <div class="boundaryMarkers">
+                <div id="leftBoundaryMarker"></div>
                 <p id="minNumber">test</p>
+                <div id="rightBoundaryMarker" style="transform: translateX(-100%)"></div>
                 <p id="maxNumber">test</p>
             </div>
-            <div id="userSlider">
-                <input type="range" oninput="updateTextboxThruThumb()" min="0" max="100" value="50" id="userThumb" step="1">
+            <div class="userSlider">
+                <input type="range" oninput="updateTextboxThruThumb()" min="1" max="100" value="50" id="userThumb" step="1">
                 <div id="userValueContainer">
-                    <input type="text" onChange="updateThumbThruTextbox()" min="0" max="100" value="50" id="userValue">
+                    <input type="text" onChange="updateThumbThruTextbox()" min="1" max="100" value="50" id="userValue">
+                    <button onclick="checkNumber()" id="buttonCheck">Check</button>
                 </div>
             </div>
-            <button onclick="checkNumber()" id="buttonCheck">Check</button>
         </div>
         <script src="slider.js"></script>
     </body>

@@ -6,9 +6,9 @@ div {
     height: 70px;
 }
 
-#sliderBar {
+.sliderBar {
     height: 10px;
-    width: 50%;
+    width: 100%;
     background-color:rgba(83, 83, 83);
     border-radius: 5px;
     overflow: hidden;
@@ -23,36 +23,32 @@ div {
     box-shadow: inset 1px 1px 8px rgba(0, 0, 0, 0.2);
 }
 
-#boundaryThumbs {
-    position: relative;
+.boundaryMarkers {
+    position: absolute;
 }
 
-#boundaryThumbs input {
-   appearance: none; 
-   position: absolute;
-   height: 0px; 
-   width: 50%;
-   top: -7px;
-}
-
-#boundaryThumbs input::-webkit-slider-thumb {
-    appearance: none;
+#leftBoundaryMarker,
+#rightBoundaryMarker {
+    position: absolute;
+    background-color: black;
     height: 20px;
-    width:5px;
-    border-radius: 5px;
-    background-color: rgb(31, 31, 31);
+    width: 6px;
+    border-radius: 4px;
+    top: -15px;
 }
 
-#userSlider {
+
+
+.userSlider {
     position: relative;
-    top: -91px;
+    top: -7px;
 }
 
-#userSlider > input {
+.userSlider > input {
     appearance: none;
     position: absolute;
     height: 0px;
-    width: 50%;
+    width: 100%;
     border-radius: 10px;
 }
 
@@ -67,6 +63,8 @@ div {
     box-shadow: inset 1px 1px 10px rgba(0,0,0,0.1);
 
     transition: 0.3s ease;
+    margin-left: -2px;
+    opacity: 50%;
 }
 
 #userThumb::-webkit-slider-thumb:hover {
@@ -90,6 +88,4 @@ div {
 
 #buttonCheck {
     position:relative;
-    top: -185px;
-    left: 300px;
 }

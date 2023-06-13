@@ -1,0 +1,203 @@
+<html>
+    <head>
+        <title></title>
+        <style>
+
+
+.box {
+    height: 70px;
+}
+
+#sliderBar {
+    height: 10px;
+    width: 50%;
+    background-color:rgba(83, 83, 83);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+#sliderTrack {
+    background-color: rgb(17, 199, 108);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    box-shadow: inset 1px 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+#boundaryThumbs {
+    position: relative;
+}
+
+#boundaryThumbs input {
+   appearance: none; 
+   position: absolute;
+   height: 0px; 
+   width: 50%;
+   top: -7px;
+}
+
+#boundaryThumbs input::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width:5px;
+    border-radius: 5px;
+    background-color: rgb(31, 31, 31);
+}
+
+#userSlider {
+    position: relative;
+    top: -91px;
+}
+
+#userSlider > input {
+    appearance: none;
+    position: absolute;
+    height: 0px;
+    width: 50%;
+    border-radius: 10px;
+}
+
+#userThumb::-webkit-slider-thumb {
+    appearance: none;
+    height: 25px;
+    width: 25px;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    border: 1px solid rgba(50,50,50,0.2);
+    box-shadow: inset 1px 1px 10px rgba(0,0,0,0.1);
+
+    transition: 0.3s ease;
+}
+
+#userThumb::-webkit-slider-thumb:hover {
+    height: 30px;
+    width: 30px;
+}
+
+#userValueContainer {
+    position: relative;
+    top: -60px;
+    text-align: center;
+    width:50%;
+}
+
+#userValue {
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
+#buttonCheck {
+    position:relative;
+    top: -185px;
+    left: 300px;
+}
+
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <p>TEst</p>
+        </div>
+        <div id="wholeSlider">
+            <div id="sliderBar">
+                <div id="sliderTrack"></div>
+            </div>
+            <div id="boundaryThumbs">
+                <input type="range" id="minThumb" min="0" max="100" value="0" disabled>
+                <input type="range" id="maxThumb" min="0" max="100" value="100" disabled>
+            </div>
+            <div id="boundaryNumbers">
+                <p id="minNumber">test</p>
+                <p id="maxNumber">test</p>
+            </div>
+            <div id="userSlider">
+                <input type="range" oninput="updateTextboxThruThumb()" min="0" max="100" value="50" id="userThumb" step="1">
+                <div id="userValueContainer">
+                    <input type="text" onChange="updateThumbThruTextbox()" min="0" max="100" value="50" id="userValue">
+                </div>
+            </div>
+            <button onclick="checkNumber()" id="buttonCheck">Check</button>
+        </div>
+        <script>var generatedNumber = Math.floor(Math.random() * 101);
+            var min = 0;
+            var max = 100;
+            var track = document.getElementById("sliderTrack");
+            track.style.width = "100%";
+            track.style.left = "0%";
+            
+            function updateMinMax() {
+                min = document.getElementById("minThumb").value;
+                max = document.getElementById("maxThumb").value;
+            }
+            
+            function checkNumber() {
+                var selected = document.getElementById("userThumb").value;
+            
+                if(selected != generatedNumber) {
+                    if (selected > generatedNumber) max = +selected-1;
+                    if (selected < generatedNumber) min = +selected+1;
+                    updateTrack();
+                } else {
+            
+                }
+            }
+            
+            function updateTrack() {
+            
+                var tracklength = max - min;
+                var trackWidthValue = track.style.width.substring(0, track.style.width.length-1);
+                var trackLeftValue = track.style.left.substring(0, track.style.left.length-1);
+            
+                if (trackWidthValue > tracklength) {
+                    if (trackLeftValue == min) {
+                        track.style.width = +trackWidthValue - 1 + "%";
+                    } else {
+                        track.style.width = +trackWidthValue - 1 + "%";
+                        track.style.left = +trackLeftValue + 1 + "%";
+                    }
+                }
+            
+                var minThumb = document.getElementById("minThumb");
+                var maxThumb = document.getElementById("maxThumb");
+            
+                document.getElementById("minNumber").innerHTML = min;
+                document.getElementById("maxNumber").innerHTML = max;
+            
+                if (minThumb.value != min) minThumb.value++;
+                if (maxThumb.value != max) maxThumb.value--;
+            
+                animationId = requestAnimationFrame(updateTrack);
+                if (minThumb.value == min && maxThumb.value == max) {
+                    cancelAnimationFrame(animationId);
+                }
+                //minThumb.value = min;
+                //maxThumb.value = max;
+            }
+            
+            function updateTextboxThruThumb() {
+                var thumb = document.getElementById("userThumb");
+                var textbox = document.getElementById("userValue");
+            
+                if(thumb.value<min) thumb.value = min;
+                if(thumb.value>max) thumb.value = max;
+            
+                textbox.value = thumb.value;
+            }
+            
+            function updateThumbThruTextbox() {
+                var thumb = document.getElementById("userThumb");
+                var textbox = document.getElementById("userValue");
+            
+                if(textbox.value<min) textbox.value = min;
+                if(textbox.value>max) textbox.value = max;
+            
+                thumb.value = textbox.value;
+            }
+            
+            </script>
+    </body>
+</html>
