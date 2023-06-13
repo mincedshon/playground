@@ -34,28 +34,26 @@ function checkNumber() {
 
 function updateTrack(selected) {
 
-    var trackWidthValue = track.style.width.substring(0, track.style.width.length-1);
-    var trackLeftValue = track.style.left.substring(0, track.style.left.length-1);
-
     track.style.width = (max - min) / (100 - 1) * (trackWidth - 25)  + 25 + "px";
     track.style.left = (min - 1) / (100 - 1) * (trackWidth - 25) + "px";
     
+    var trackWidthValue = track.style.width.substring(0, track.style.width.length-2);
+    var trackLeftValue = track.style.left.substring(0, track.style.left.length-2);
 
     var leftMarker = document.getElementById("leftBoundaryMarker");
     var rightMarker = document.getElementById("rightBoundaryMarker");
 
-    if (minThumb.value != min) minThumb.value++;
-    if (maxThumb.value != max) maxThumb.value--;
+    leftMarker.style.left = track.style.left;
+    console.log(+trackWidthValue + +trackLeftValue);
+    rightMarker.style.left = +trackWidthValue + +trackLeftValue + "px";
 
     document.getElementById("minNumber").innerHTML = min;
     document.getElementById("maxNumber").innerHTML = max;
 
-    animationId = requestAnimationFrame(updateTrack);
+    /*animationId = requestAnimationFrame(updateTrack);
     if (minThumb.value == min && maxThumb.value == max) {
         cancelAnimationFrame(animationId);
-    }
-    //minThumb.value = min;
-    //maxThumb.value = max;
+    }*/
 }
 
 function updateTextboxThruThumb() {
