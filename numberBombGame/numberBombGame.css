@@ -6,6 +6,20 @@ div {
     height: 70px;
 }
 
+.wholeSlider {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+}
+
+#userValueContainer {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
 .sliderBar {
     height: 10px;
     width: 100%;
@@ -24,20 +38,26 @@ div {
 }
 
 .boundaryMarkers {
-    position: absolute;
+    position: relative;
+    top: -15px;
 }
 
 #leftBoundaryMarker,
 #rightBoundaryMarker {
+    display: flex;
+    justify-content: center;
     position: absolute;
-    background-color: black;
+    background-color: grey;
     height: 20px;
     width: 6px;
     border-radius: 4px;
-    top: -15px;
+    opacity: 50%;
 }
 
-
+#leftBoundaryNumber,
+#rightBoundaryNumber {
+    font-size: 20px;
+}
 
 .userSlider {
     position: relative;
@@ -70,13 +90,6 @@ div {
 #userThumb::-webkit-slider-thumb:hover {
     height: 30px;
     width: 30px;
-}
-
-#userValueContainer {
-    position: relative;
-    top: -60px;
-    text-align: center;
-    width:50%;
 }
 
 #userValue {
