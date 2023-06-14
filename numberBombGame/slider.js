@@ -3,18 +3,16 @@ var min = 1;
 var max = 100;
 var leftMarker = document.getElementById("leftBoundaryMarker");
 var rightMarker = document.getElementById("rightBoundaryMarker");
+var leftNumber = document.getElementById("leftBoundaryNumber");
+var rightNumber = document.getElementById("rightBoundaryNumber");
 var track = document.getElementById("sliderTrack");
 var trackWidth = track.offsetWidth;
 
+leftNumber.innerHTML = min;
+rightNumber.innerHTML = max;
 document.getElementById("rightBoundaryMarker").style.left = trackWidth;
 
 generatedNumber = 40;
-
-function updateMinMax() {
-    min = document.getElementById("minThumb").value;
-    max = document.getElementById("maxThumb").value;
-    
-}
 
 function checkNumber() {
     var selected = document.getElementById("userThumb").value;
@@ -33,14 +31,11 @@ function checkNumber() {
 function updateTrack() {
     var newTrackWidth = ((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2);
     var newTrackLeft = ((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2);
-    //var newTrackWidthFromRight = (100-max) / (100 - 1) * (trackWidth - 25) + 25;
+    var oneUnit = (1 / (100 - 1) * (trackWidth - 25)).toFixed(2);
     //track.style.width = (max - min) / (100 - 1) * (trackWidth - 25)  + 25 + "px";
     //track.style.left = (min - 1) / (100 - 1) * (trackWidth - 25) + "px";
 
     performAnimation(newTrackWidth, newTrackLeft);
-
-    document.getElementById("minNumber").innerHTML = min;
-    document.getElementById("maxNumber").innerHTML = max;
 }
 
 function performAnimation(newTrackWidth, newTrackLeft) {
@@ -50,20 +45,30 @@ function performAnimation(newTrackWidth, newTrackLeft) {
     var currentTrackWidth = getComputedStyle(track).width.substring(0, getComputedStyle(track).width.length-2);
     if (parseFloat(parseFloat(currentTrackWidth).toFixed(2)) > newTrackWidth) {           
         track.style.width = +currentTrackWidth - 3;
-        //rightMarker.style.left = +currentTrackLeft + +currentTrackWidth + "px";
+        rightMarker.style.left = +currentTrackLeft + +currentTrackWidth + "px";
+        if (parseInt(rightNumber.innerHTML) > max) rightNumber.innerHTML = "...";
         repeat = true;
     } else {
         track.style.width = newTrackWidth;
+        rightMarker.style.left = +newTrackWidth + +newTrackLeft + "px";
+        rightNumber.innerHTML = max;
     }
 
     if (parseFloat(parseFloat(currentTrackLeft).toFixed(2)) < newTrackLeft) {
         console.log("HELO");
         track.style.left = +currentTrackLeft + 3;
-        //leftMarker.style.left = track.style.left;
         repeat = true;
+        if (parseInt(leftNumber.innerHTML) < min) leftNumber.innerHTML = "...";
     } else {
         track.style.left = newTrackLeft;
+        leftNumber.innerHTML = min;
     }
+
+    leftMarker.style.left = track.style.left;
+
+    
+
+
 
     if (repeat) {
         var raf = requestAnimationFrame(() => performAnimation(newTrackWidth, newTrackLeft));
