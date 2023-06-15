@@ -6,7 +6,9 @@ var rightMarker = document.getElementById("rightBoundaryMarker");
 var leftNumber = document.getElementById("leftBoundaryNumber");
 var rightNumber = document.getElementById("rightBoundaryNumber");
 var track = document.getElementById("sliderTrack");
+var message = document.getElementById("message");
 var trackWidth = track.offsetWidth;
+var playerTurn = 1;
 
 leftNumber.innerHTML = min;
 rightNumber.innerHTML = max;
@@ -18,13 +20,15 @@ function checkNumber() {
     var selected = document.getElementById("userThumb").value;
     document.getElementById("buttonCheck").disabled = true;
 
-    if(selected != generatedNumber) {
-        if (selected > generatedNumber) max = +selected-1;
+    if(selected == generatedNumber) {
+        changePlayerTurn();
+        displayMessage();
+    } else if (selected >= min && selected <= max) {
+        if (selected > generatedNumber) max = +selected-1; 
         if (selected < generatedNumber) min = +selected+1;
-
         updateTrack();
     } else {
-
+        document.getElementById("buttonCheck").disabled = false;
     }
 }
 
@@ -55,7 +59,6 @@ function performAnimation(newTrackWidth, newTrackLeft) {
     }
 
     if (parseFloat(parseFloat(currentTrackLeft).toFixed(2)) < newTrackLeft) {
-        console.log("HELO");
         track.style.left = +currentTrackLeft + 3;
         repeat = true;
         if (parseInt(leftNumber.innerHTML) < min) leftNumber.innerHTML = "...";
@@ -66,14 +69,12 @@ function performAnimation(newTrackWidth, newTrackLeft) {
 
     leftMarker.style.left = track.style.left;
 
-    
-
-
-
     if (repeat) {
         var raf = requestAnimationFrame(() => performAnimation(newTrackWidth, newTrackLeft));
     } else {
         document.getElementById("buttonCheck").disabled = false;
+        changePlayerTurn();
+        updatePlayerText();
         cancelAnimationFrame(raf);
     } 
 }
@@ -96,5 +97,35 @@ function updateThumbThruTextbox() {
     if(textbox.value>max) textbox.value = max;
 
     thumb.value = textbox.value;
+}
+
+function changePlayerTurn() {
+    if (playerTurn == 1) {
+        playerTurn = 2;
+    } else {
+        playerTurn = 1;
+    }
+}
+
+function updatePlayerText() {
+    document.getElementById("player").innerHTML = "Player " + playerTurn + "'s turn";
+}
+
+function resetGame() {
+    message.style.display = "none";
+    min = 1;
+    max = 100;
+    generatedNumber = Math.floor(Math.random() * 101);
+    document.getElementById("userThumb").value = 50;
+    updateTextboxThruThumb();
+    updateTrack();
+    playerTurn = 1;
+    updatePlayerText();
+}
+
+function displayMessage() {
+    message.style.display = "flex";
+    document.getElementById("bombNumber").innerHTML = "The bomb was hidden at number " + generatedNumber;
+    document.getElementById("winner").innerHTML = "Player " + playerTurn + " wins!";
 }
 
