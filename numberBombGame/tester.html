@@ -1,16 +1,108 @@
 <html>
     <head>
-        <title></title>
+        <link rel="stylesheet" href="numberBombGame.css">
+        <title>Number Bomb Game</title>
         <style>
+            div {
 
-
-.box {
-    height: 70px;
 }
 
-#sliderBar {
+body {
+    background-color: #FAF0E4;
+    font-family: Verdana, sans-serif; 
+}
+
+.gameArea {
+    aspect-ratio: 16/10;
+    width: 70%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 3vw;
+    background-image: linear-gradient(#9BCDD2, #9bc2d2);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.gameArea > div {
+    width: 90%;
+}
+
+#message {
+    display: none;
+    flex-wrap: wrap;
+    position:absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#message p:first-child {
+    text-align: center;
+    font-size: 4vw;
+    color: white;
+    width: 100%;
+}
+
+#bombNumber {
+    position: absolute;
+    text-align: center;
+    font-size: 2vw;
+    color: white;
+    width: 100%;
+}
+
+.box h3 {
+    text-align: center;
+    font-size: 4vw;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+.box p {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+#tagline {
+    margin-top: 0;
+    font-size: 2vw;
+    width: 100%;
+    color: rgb(255, 248, 173);
+    font-style: italic;
+}
+
+#player {
+    font-size: 2.5vw;
+    margin-bottom: 0;
+}
+
+.wholeSlider {
+    width: 100%;
+    /*display: flex;
+    flex-direction: column;
+    margin: auto;*/
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.userValueContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.sliderBar {
     height: 10px;
-    width: 50%;
+    width: 100%;
     background-color:rgba(83, 83, 83);
     border-radius: 5px;
     overflow: hidden;
@@ -18,43 +110,45 @@
 }
 
 #sliderTrack {
-    background-color: rgb(17, 199, 108);
+    background-color: #FF8551;
     height: 100%;
     width: 100%;
     position: relative;
     box-shadow: inset 1px 1px 8px rgba(0, 0, 0, 0.2);
 }
 
-#boundaryThumbs {
+.boundaryMarkers {
     position: relative;
+    top: -15px;
 }
 
-#boundaryThumbs input {
-   appearance: none; 
-   position: absolute;
-   height: 0px; 
-   width: 50%;
-   top: -7px;
-}
-
-#boundaryThumbs input::-webkit-slider-thumb {
-    appearance: none;
+#leftBoundaryMarker,
+#rightBoundaryMarker {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    background-color: grey;
     height: 20px;
-    width:5px;
-    border-radius: 5px;
-    background-color: rgb(31, 31, 31);
+    width: 6px;
+    border-radius: 4px;
+    /*opacity: 50%;*/
 }
 
-#userSlider {
+#leftBoundaryNumber,
+#rightBoundaryNumber {
+    font-size: 20px;
+}
+
+.userSlider {
     position: relative;
-    top: -91px;
+    top: -7px;
 }
 
-#userSlider > input {
+.userSlider > input {
     appearance: none;
     position: absolute;
     height: 0px;
-    width: 50%;
+    width: 100%;
     border-radius: 10px;
 }
 
@@ -69,18 +163,13 @@
     box-shadow: inset 1px 1px 10px rgba(0,0,0,0.1);
 
     transition: 0.3s ease;
+    margin-left: -2px;
+    /*opacity: 50%;*/
 }
 
 #userThumb::-webkit-slider-thumb:hover {
     height: 30px;
     width: 30px;
-}
-
-#userValueContainer {
-    position: relative;
-    top: -60px;
-    text-align: center;
-    width:50%;
 }
 
 #userValue {
@@ -90,92 +179,174 @@
     font-size: 20px;
 }
 
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
 #buttonCheck {
-    position:relative;
-    top: -185px;
-    left: 300px;
+    background-color: #FFDEDE;
+    border-radius: 1.5vw;
+    aspect-ratio: 5/3;
+    width: 15%;
+    border: 0px;
+    box-shadow: 0px 5px grey;
+    font-size: 1.8vw;
+    font-weight: bold;
+    color: black;
+}
+
+#buttonCheck:hover:not([disabled]) {
+    background-color: #f8abab;
+}
+
+#buttonCheck:active:not([disabled]) {
+    transform: translateY(4px);
+    box-shadow: 0px 1px grey;
+}
+
+#buttonCheck:disabled {
+    transform: translateY(4px);
+    box-shadow: 0px 1px grey;
+}
+
+#newGame {
+    border-radius: 10px;
+    height: 40px;
+    width: 100px;
+    border: 0px;
+    box-shadow: 0px 5px grey;
+    background-color: rgb(150, 208, 150);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#newGame:hover {
+    background-color: rgb(95, 198, 95);
+}
+
+#newGame:active {
+    transform: translateY(4px);
+    box-shadow: 0px 1px grey;
 }
 
         </style>
     </head>
     <body>
+    <div class="gameArea">
         <div class="box">
-            <p>TEst</p>
+            <h3>Number Bomb</h3>
+            <p id="tagline">Avoid the bomb at all costs!</p>
+            <p id="player">Player 1's turn</p>
         </div>
-        <div id="wholeSlider">
-            <div id="sliderBar">
+        <div class="wholeSlider">
+            <div class="userValueContainer">
+                <input type="text" onChange="updateThumbThruTextbox()" min="1" max="100" value="50" id="userValue">
+            </div>
+            <div class="sliderBar">
                 <div id="sliderTrack"></div>
             </div>
-            <div id="boundaryThumbs">
-                <input type="range" id="minThumb" min="0" max="100" value="0" disabled>
-                <input type="range" id="maxThumb" min="0" max="100" value="100" disabled>
-            </div>
-            <div id="boundaryNumbers">
-                <p id="minNumber">test</p>
-                <p id="maxNumber">test</p>
-            </div>
-            <div id="userSlider">
-                <input type="range" oninput="updateTextboxThruThumb()" min="0" max="100" value="50" id="userThumb" step="1">
-                <div id="userValueContainer">
-                    <input type="text" onChange="updateThumbThruTextbox()" min="0" max="100" value="50" id="userValue">
+            <div class="boundaryMarkers">
+                <div id="leftBoundaryMarker">
+                    <p id="leftBoundaryNumber">test</p>
+                </div>
+                <div id="rightBoundaryMarker" style="transform: translateX(-100%)">
+                    <p id="rightBoundaryNumber">test</p>
                 </div>
             </div>
-            <button onclick="checkNumber()" id="buttonCheck">Check</button>
+            <div class="userSlider">
+                <input type="range" oninput="updateTextboxThruThumb()" min="1" max="100" value="50" id="userThumb" step="1">
+            </div>
         </div>
+        <div class="buttonContainer">
+            <button onclick="checkNumber()" id="buttonCheck">Select</button>
+        </div>
+        <div id="message" style="width:100%">
+            <p id="winner"></p>
+            <p id="bombNumber"></p>
+            <button onclick="resetGame()" id="newGame">New Game</button>
+        </div>
+    </div>
         <script>var generatedNumber = Math.floor(Math.random() * 101);
-            var min = 0;
+            var min = 1;
             var max = 100;
+            var leftMarker = document.getElementById("leftBoundaryMarker");
+            var rightMarker = document.getElementById("rightBoundaryMarker");
+            var leftNumber = document.getElementById("leftBoundaryNumber");
+            var rightNumber = document.getElementById("rightBoundaryNumber");
             var track = document.getElementById("sliderTrack");
-            track.style.width = "100%";
-            track.style.left = "0%";
+            var message = document.getElementById("message");
+            var trackWidth = track.offsetWidth;
+            var playerTurn = 1;
             
-            function updateMinMax() {
-                min = document.getElementById("minThumb").value;
-                max = document.getElementById("maxThumb").value;
-            }
+            leftNumber.innerHTML = min;
+            rightNumber.innerHTML = max;
+            document.getElementById("rightBoundaryMarker").style.left = trackWidth;
+            
+            generatedNumber = 40;
             
             function checkNumber() {
                 var selected = document.getElementById("userThumb").value;
+                document.getElementById("buttonCheck").disabled = true;
             
-                if(selected != generatedNumber) {
-                    if (selected > generatedNumber) max = +selected-1;
+                if(selected == generatedNumber) {
+                    changePlayerTurn();
+                    displayMessage();
+                } else if (selected >= min && selected <= max) {
+                    if (selected > generatedNumber) max = +selected-1; 
                     if (selected < generatedNumber) min = +selected+1;
                     updateTrack();
                 } else {
-            
+                    document.getElementById("buttonCheck").disabled = false;
                 }
             }
             
             function updateTrack() {
+                var newTrackWidth = ((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2);
+                var newTrackLeft = ((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2);
+                var oneUnit = (1 / (100 - 1) * (trackWidth - 25)).toFixed(2);
+                //track.style.width = (max - min) / (100 - 1) * (trackWidth - 25)  + 25 + "px";
+                //track.style.left = (min - 1) / (100 - 1) * (trackWidth - 25) + "px";
             
-                var tracklength = max - min;
-                var trackWidthValue = track.style.width.substring(0, track.style.width.length-1);
-                var trackLeftValue = track.style.left.substring(0, track.style.left.length-1);
+                performAnimation(newTrackWidth, newTrackLeft);
+            }
             
-                if (trackWidthValue > tracklength) {
-                    if (trackLeftValue == min) {
-                        track.style.width = +trackWidthValue - 1 + "%";
-                    } else {
-                        track.style.width = +trackWidthValue - 1 + "%";
-                        track.style.left = +trackLeftValue + 1 + "%";
-                    }
+            function performAnimation(newTrackWidth, newTrackLeft) {
+                var repeat = false;
+            
+                var currentTrackLeft = getComputedStyle(track).left.substring(0, getComputedStyle(track).left.length-2);
+                var currentTrackWidth = getComputedStyle(track).width.substring(0, getComputedStyle(track).width.length-2);
+                if (parseFloat(parseFloat(currentTrackWidth).toFixed(2)) > newTrackWidth) {           
+                    track.style.width = +currentTrackWidth - 3;
+                    rightMarker.style.left = +currentTrackLeft + +currentTrackWidth + "px";
+                    if (parseInt(rightNumber.innerHTML) > max) rightNumber.innerHTML = "...";
+                    repeat = true;
+                } else {
+                    track.style.width = newTrackWidth;
+                    rightMarker.style.left = +newTrackWidth + +newTrackLeft + "px";
+                    rightNumber.innerHTML = max;
                 }
             
-                var minThumb = document.getElementById("minThumb");
-                var maxThumb = document.getElementById("maxThumb");
-            
-                document.getElementById("minNumber").innerHTML = min;
-                document.getElementById("maxNumber").innerHTML = max;
-            
-                if (minThumb.value != min) minThumb.value++;
-                if (maxThumb.value != max) maxThumb.value--;
-            
-                animationId = requestAnimationFrame(updateTrack);
-                if (minThumb.value == min && maxThumb.value == max) {
-                    cancelAnimationFrame(animationId);
+                if (parseFloat(parseFloat(currentTrackLeft).toFixed(2)) < newTrackLeft) {
+                    track.style.left = +currentTrackLeft + 3;
+                    repeat = true;
+                    if (parseInt(leftNumber.innerHTML) < min) leftNumber.innerHTML = "...";
+                } else {
+                    track.style.left = newTrackLeft;
+                    leftNumber.innerHTML = min;
                 }
-                //minThumb.value = min;
-                //maxThumb.value = max;
+            
+                leftMarker.style.left = track.style.left;
+            
+                if (repeat) {
+                    var raf = requestAnimationFrame(() => performAnimation(newTrackWidth, newTrackLeft));
+                } else {
+                    document.getElementById("buttonCheck").disabled = false;
+                    changePlayerTurn();
+                    updatePlayerText();
+                    cancelAnimationFrame(raf);
+                } 
             }
             
             function updateTextboxThruThumb() {
@@ -196,6 +367,36 @@
                 if(textbox.value>max) textbox.value = max;
             
                 thumb.value = textbox.value;
+            }
+            
+            function changePlayerTurn() {
+                if (playerTurn == 1) {
+                    playerTurn = 2;
+                } else {
+                    playerTurn = 1;
+                }
+            }
+            
+            function updatePlayerText() {
+                document.getElementById("player").innerHTML = "Player " + playerTurn + "'s turn";
+            }
+            
+            function resetGame() {
+                message.style.display = "none";
+                min = 1;
+                max = 100;
+                generatedNumber = Math.floor(Math.random() * 101);
+                document.getElementById("userThumb").value = 50;
+                updateTextboxThruThumb();
+                updateTrack();
+                playerTurn = 1;
+                updatePlayerText();
+            }
+            
+            function displayMessage() {
+                message.style.display = "flex";
+                document.getElementById("bombNumber").innerHTML = "The bomb was hidden at number " + generatedNumber;
+                document.getElementById("winner").innerHTML = "Player " + playerTurn + " wins!";
             }
             
             </script>

@@ -8,20 +8,18 @@ body {
 }
 
 .gameArea {
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    margin: auto;
-    justify-content: center;
-    height: 80%;
+    aspect-ratio: 16/10;
     width: 70%;
-    border-radius: 15px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 3vw;
     background-image: linear-gradient(#9BCDD2, #9bc2d2);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-    max-height: 500px;
-    max-width: 700px;
     overflow: hidden;
-    opacity: 99%;
 }
 
 .gameArea > div {
@@ -57,6 +55,7 @@ body {
     text-align: center;
     font-size: 4vw;
     font-weight: bold;
+    margin: 0;
     color: white;
     text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
 }
@@ -69,8 +68,7 @@ body {
 }
 
 #tagline {
-    position: relative;
-    top: -35px;
+    margin-top: 0;
     font-size: 2vw;
     width: 100%;
     color: rgb(255, 248, 173);
@@ -79,6 +77,7 @@ body {
 
 #player {
     font-size: 2.5vw;
+    margin-bottom: 0;
 }
 
 .wholeSlider {
@@ -87,6 +86,7 @@ body {
     flex-direction: column;
     margin: auto;*/
     justify-content: center;
+    margin-bottom: 20px;
 }
 
 .userValueContainer {
@@ -177,17 +177,17 @@ body {
 .buttonContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin-bottom: 5px;
 }
 
 #buttonCheck {
     background-color: #FFDEDE;
-    border-radius: 10px;
-    height: 40px;
-    width: 80px;
+    border-radius: 1.5vw;
+    aspect-ratio: 5/3;
+    width: 15%;
     border: 0px;
     box-shadow: 0px 5px grey;
-    font-size: 15px;
+    font-size: 1.8vw;
     font-weight: bold;
     color: black;
 }
