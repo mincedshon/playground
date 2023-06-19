@@ -3,10 +3,7 @@
         <link rel="stylesheet" href="numberBombGame.css">
         <title>Number Bomb Game</title>
         <style>
-            div {
-
-}
-
+            
 body {
     background-color: #FAF0E4;
     font-family: Verdana, sans-serif; 
@@ -31,32 +28,110 @@ body {
     width: 90%;
 }
 
+.box span {
+    background-color: darkblue;
+    height: 5vw;
+    width: 5vw;
+    border-radius: 3vw;
+    border: 0.5vw white solid;
+}
+
+.box span:hover {
+    border: 0.5vw rgb(80, 80, 219) solid;
+    cursor: pointer;
+}
+
+#helpButton {
+    position: absolute;
+    color: white;
+    top: 2vw;
+    right: 4vw;
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+    font-size: 4vw;
+}
+
 #message {
-    display: none;
-    flex-wrap: wrap;
+    display: inline;
     position:absolute;
     background-color: rgba(0, 0, 0, 0.8);
     height: 100%;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
 }
 
-#message p:first-child {
+#help {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.summary {
+    list-style-type: none;
+}
+
+#help p {
+    color: white;
+    margin: 1%;
+    font-size: 1.8vw;
+}
+
+ul {
+    color: white;
+    list-style-type: none;
+    font-size: 1.8vw;
+}
+
+.summary {
     text-align: center;
-    font-size: 4vw;
+    padding-left: 0;
+}
+
+.howToPlay li:before {
+    content: '\1F4A3';
+    margin-right: 1vw;
+}
+
+#closeButton {
+    position: absolute;
+    color: rgb(227, 149, 149);
+    font-weight: bold;
+    font-size: 5vw;
+    top: 2vw;
+    right: 4vw;
+}
+
+#closeButton:hover {
+    cursor: pointer;
+    color: rgb(223, 113, 113);
+}
+
+#roundEnd {
+    display: none;
+    height: 100%;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: space-evenly;
+}
+
+#roundEnd p {
+    text-align: center;
+    margin: 0;
     color: white;
     width: 100%;
+}
+
+#winner {
+    font-size: 4vw;
 }
 
 #bombNumber {
-    position: absolute;
-    text-align: center;
     font-size: 2vw;
-    color: white;
-    width: 100%;
 }
 
-.box h3 {
+h3 {
     text-align: center;
     font-size: 4vw;
     font-weight: bold;
@@ -130,13 +205,8 @@ body {
     background-color: grey;
     height: 20px;
     width: 6px;
-    border-radius: 4px;
+    border-radius: 2vw;
     /*opacity: 50%;*/
-}
-
-#leftBoundaryNumber,
-#rightBoundaryNumber {
-    font-size: 20px;
 }
 
 .userSlider {
@@ -212,14 +282,15 @@ body {
 }
 
 #newGame {
-    border-radius: 10px;
-    height: 40px;
-    width: 100px;
+    aspect-ratio: 7/3;
+    width: 20%;
+    border-radius: 1.5vw;
     border: 0px;
     box-shadow: 0px 5px grey;
     background-color: rgb(150, 208, 150);
-    font-size: 15px;
+    font-size: 1.8vw;
     font-weight: bold;
+    align-self: flex-start;
 }
 
 #newGame:hover {
@@ -231,6 +302,12 @@ body {
     box-shadow: 0px 1px grey;
 }
 
+#leftBoundaryNumber,
+#rightBoundaryNumber {
+    position: relative;
+    font-size: 2.5vw;
+}
+
         </style>
     </head>
     <body>
@@ -239,12 +316,13 @@ body {
             <h3>Number Bomb</h3>
             <p id="tagline">Avoid the bomb at all costs!</p>
             <p id="player">Player 1's turn</p>
+            <span id="helpButton">?</span>
         </div>
         <div class="wholeSlider">
             <div class="userValueContainer">
                 <input type="text" onChange="updateThumbThruTextbox()" min="1" max="100" value="50" id="userValue">
             </div>
-            <div class="sliderBar">
+            <div class="sliderBar" id="bar">
                 <div id="sliderTrack"></div>
             </div>
             <div class="boundaryMarkers">
@@ -262,143 +340,205 @@ body {
         <div class="buttonContainer">
             <button onclick="checkNumber()" id="buttonCheck">Select</button>
         </div>
-        <div id="message" style="width:100%">
-            <p id="winner"></p>
-            <p id="bombNumber"></p>
-            <button onclick="resetGame()" id="newGame">New Game</button>
+        <div id="message">
+            <div id="help">
+                <h3>Summary</h3>
+                <ul class="summary">
+                    <li>Number Bomb is a 2 player game</li>
+                    <li>A bomb will be hidden behind a number ranging from 1 - 100</li>
+                    <li>Players will take turns selecting a number</li>
+                    <li>The goal is to avoid the bomb</li>
+                </ul>
+                <h3>How to play</h3>
+                <ul class="howToPlay">
+                    <li>Drag the white circle to select a number</li>
+                    <li>You win if the other player selects the bomb</li>
+                </ul>
+                <span id="closeButton">X</span>
+            </div>
+            <div id="roundEnd">
+                <p id="winner">test</p>
+                <p id="bombNumber">test</p>
+                <button onclick="resetGame()" id="newGame">New Game</button>
+            </div>
         </div>
     </div>
-        <script>var generatedNumber = Math.floor(Math.random() * 101);
-            var min = 1;
-            var max = 100;
-            var leftMarker = document.getElementById("leftBoundaryMarker");
-            var rightMarker = document.getElementById("rightBoundaryMarker");
-            var leftNumber = document.getElementById("leftBoundaryNumber");
-            var rightNumber = document.getElementById("rightBoundaryNumber");
-            var track = document.getElementById("sliderTrack");
-            var message = document.getElementById("message");
-            var trackWidth = track.offsetWidth;
-            var playerTurn = 1;
-            
-            leftNumber.innerHTML = min;
-            rightNumber.innerHTML = max;
-            document.getElementById("rightBoundaryMarker").style.left = trackWidth;
-            
-            generatedNumber = 40;
-            
-            function checkNumber() {
-                var selected = document.getElementById("userThumb").value;
-                document.getElementById("buttonCheck").disabled = true;
-            
-                if(selected == generatedNumber) {
-                    changePlayerTurn();
-                    displayMessage();
-                } else if (selected >= min && selected <= max) {
-                    if (selected > generatedNumber) max = +selected-1; 
-                    if (selected < generatedNumber) min = +selected+1;
-                    updateTrack();
-                } else {
-                    document.getElementById("buttonCheck").disabled = false;
-                }
-            }
-            
-            function updateTrack() {
-                var newTrackWidth = ((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2);
-                var newTrackLeft = ((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2);
-                var oneUnit = (1 / (100 - 1) * (trackWidth - 25)).toFixed(2);
-                //track.style.width = (max - min) / (100 - 1) * (trackWidth - 25)  + 25 + "px";
-                //track.style.left = (min - 1) / (100 - 1) * (trackWidth - 25) + "px";
-            
-                performAnimation(newTrackWidth, newTrackLeft);
-            }
-            
-            function performAnimation(newTrackWidth, newTrackLeft) {
-                var repeat = false;
-            
-                var currentTrackLeft = getComputedStyle(track).left.substring(0, getComputedStyle(track).left.length-2);
-                var currentTrackWidth = getComputedStyle(track).width.substring(0, getComputedStyle(track).width.length-2);
-                if (parseFloat(parseFloat(currentTrackWidth).toFixed(2)) > newTrackWidth) {           
-                    track.style.width = +currentTrackWidth - 3;
-                    rightMarker.style.left = +currentTrackLeft + +currentTrackWidth + "px";
-                    if (parseInt(rightNumber.innerHTML) > max) rightNumber.innerHTML = "...";
-                    repeat = true;
-                } else {
-                    track.style.width = newTrackWidth;
-                    rightMarker.style.left = +newTrackWidth + +newTrackLeft + "px";
-                    rightNumber.innerHTML = max;
-                }
-            
-                if (parseFloat(parseFloat(currentTrackLeft).toFixed(2)) < newTrackLeft) {
-                    track.style.left = +currentTrackLeft + 3;
-                    repeat = true;
-                    if (parseInt(leftNumber.innerHTML) < min) leftNumber.innerHTML = "...";
-                } else {
-                    track.style.left = newTrackLeft;
-                    leftNumber.innerHTML = min;
-                }
-            
-                leftMarker.style.left = track.style.left;
-            
-                if (repeat) {
-                    var raf = requestAnimationFrame(() => performAnimation(newTrackWidth, newTrackLeft));
-                } else {
-                    document.getElementById("buttonCheck").disabled = false;
-                    changePlayerTurn();
-                    updatePlayerText();
-                    cancelAnimationFrame(raf);
-                } 
-            }
-            
-            function updateTextboxThruThumb() {
-                var thumb = document.getElementById("userThumb");
-                var textbox = document.getElementById("userValue");
-            
-                if(thumb.value<min) thumb.value = min;
-                if(thumb.value>max) thumb.value = max;
-            
-                textbox.value = thumb.value;
-            }
-            
-            function updateThumbThruTextbox() {
-                var thumb = document.getElementById("userThumb");
-                var textbox = document.getElementById("userValue");
-            
-                if(textbox.value<min) textbox.value = min;
-                if(textbox.value>max) textbox.value = max;
-            
-                thumb.value = textbox.value;
-            }
-            
-            function changePlayerTurn() {
-                if (playerTurn == 1) {
-                    playerTurn = 2;
-                } else {
-                    playerTurn = 1;
-                }
-            }
-            
-            function updatePlayerText() {
-                document.getElementById("player").innerHTML = "Player " + playerTurn + "'s turn";
-            }
-            
-            function resetGame() {
-                message.style.display = "none";
-                min = 1;
-                max = 100;
-                generatedNumber = Math.floor(Math.random() * 101);
-                document.getElementById("userThumb").value = 50;
-                updateTextboxThruThumb();
-                updateTrack();
-                playerTurn = 1;
-                updatePlayerText();
-            }
-            
-            function displayMessage() {
-                message.style.display = "flex";
-                document.getElementById("bombNumber").innerHTML = "The bomb was hidden at number " + generatedNumber;
-                document.getElementById("winner").innerHTML = "Player " + playerTurn + " wins!";
-            }
-            
-            </script>
+        <script>
+            var generatedNumber = Math.floor(Math.random() * 101);
+var min = 1;
+var max = 100;
+var leftMarker = document.getElementById("leftBoundaryMarker");
+var rightMarker = document.getElementById("rightBoundaryMarker");
+var leftNumber = document.getElementById("leftBoundaryNumber");
+var rightNumber = document.getElementById("rightBoundaryNumber");
+var track = document.getElementById("sliderTrack");
+var bar = document.getElementById("bar");
+var message = document.getElementById("message");
+var roundEnd = document.getElementById("roundEnd");
+var trackWidth = bar.offsetWidth;
+var playerTurn = 1;
+
+leftNumber.innerHTML = min;
+rightNumber.innerHTML = max;
+document.getElementById("rightBoundaryMarker").style.left = trackWidth;
+
+generatedNumber = 40;
+
+document.getElementById("closeButton").addEventListener("click", removeMessage);
+document.getElementById("helpButton").addEventListener("click", displayHelp);
+window.addEventListener("resize", fixSliderOnResize);
+
+function checkNumber() {
+    var selected = document.getElementById("userThumb").value;
+    document.getElementById("buttonCheck").disabled = true;
+
+    if(selected == generatedNumber) {
+        changePlayerTurn();
+        displayRoundEnd();
+    } else if (selected >= min && selected <= max) {
+        if (selected > generatedNumber) max = +selected-1; 
+        if (selected < generatedNumber) min = +selected+1;
+        updateTrack();
+    } else {
+        document.getElementById("buttonCheck").disabled = false;
+    }
+}
+
+function updateTrack() {
+    var newTrackWidth = ((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2);
+    var newTrackLeft = ((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2);
+    var oneUnit = (1 / (100 - 1) * (trackWidth - 25)).toFixed(2);
+    //track.style.width = (max - min) / (100 - 1) * (trackWidth - 25)  + 25 + "px";
+    //track.style.left = (min - 1) / (100 - 1) * (trackWidth - 25) + "px";
+
+    performAnimation(newTrackWidth, newTrackLeft);
+}
+
+function performAnimation(newTrackWidth, newTrackLeft) {
+    var repeat = false;
+
+    var currentTrackLeft = getComputedStyle(track).left.substring(0, getComputedStyle(track).left.length-2);
+    var currentTrackWidth = getComputedStyle(track).width.substring(0, getComputedStyle(track).width.length-2);
+    if (parseFloat(parseFloat(currentTrackWidth).toFixed(2)) > newTrackWidth) {           
+        track.style.width = +currentTrackWidth - 3;
+        rightMarker.style.left = +currentTrackLeft + +currentTrackWidth + "px";
+        if (parseInt(rightNumber.innerHTML) > max) rightNumber.innerHTML = "...";
+        repeat = true;
+    } else {
+        track.style.width = newTrackWidth;
+        rightMarker.style.left = +newTrackWidth + +newTrackLeft + "px";
+        rightNumber.innerHTML = max;
+    }
+
+    if (parseFloat(parseFloat(currentTrackLeft).toFixed(2)) < newTrackLeft) {
+        track.style.left = +currentTrackLeft + 3;
+        repeat = true;
+        if (parseInt(leftNumber.innerHTML) < min) leftNumber.innerHTML = "...";
+    } else {
+        track.style.left = newTrackLeft;
+        leftNumber.innerHTML = min;
+    }
+
+    leftMarker.style.left = track.style.left;
+
+    if (repeat) {
+        var raf = requestAnimationFrame(() => performAnimation(newTrackWidth, newTrackLeft));
+    } else {
+        document.getElementById("buttonCheck").disabled = false;
+        changePlayerTurn();
+        updatePlayerText();
+        leftNumber.style.left = 0;
+        rightNumber.style.left = 0;
+        fixNumbers();
+        cancelAnimationFrame(raf);
+    } 
+}
+
+function updateTextboxThruThumb() {
+    var thumb = document.getElementById("userThumb");
+    var textbox = document.getElementById("userValue");
+
+    if(thumb.value<min) thumb.value = min;
+    if(thumb.value>max) thumb.value = max;
+
+    textbox.value = thumb.value;
+}
+
+function updateThumbThruTextbox() {
+    var thumb = document.getElementById("userThumb");
+    var textbox = document.getElementById("userValue");
+
+    if(textbox.value<min) textbox.value = min;
+    if(textbox.value>max) textbox.value = max;
+
+    thumb.value = textbox.value;
+}
+
+function changePlayerTurn() {
+    if (playerTurn == 1) {
+        playerTurn = 2;
+    } else {
+        playerTurn = 1;
+    }
+}
+
+function updatePlayerText() {
+    document.getElementById("player").innerHTML = "Player " + playerTurn + "'s turn";
+}
+
+function resetGame() {
+    removeMessage();
+    min = 1;
+    max = 100;
+    generatedNumber = Math.floor(Math.random() * 101);
+    document.getElementById("userThumb").value = 50;
+    updateTextboxThruThumb();
+    updateTrack();
+    playerTurn = 1;
+    updatePlayerText();
+}
+
+function displayRoundEnd() {
+    message.style.display = "inline";
+    roundEnd.style.display = "flex";
+    document.getElementById("bombNumber").innerHTML = "The bomb was hidden at number " + generatedNumber;
+    document.getElementById("winner").innerHTML = "Player " + playerTurn + " wins!";
+}
+
+function displayHelp() {
+    message.style.display = "inline";
+    help.style.display = "flex";
+}
+
+function removeMessage() {
+    message.style.display = "none";
+    roundEnd.style.display = "none";
+    help.style.display = "none";
+}
+
+function fixSliderOnResize() {
+    trackWidth = bar.offsetWidth;
+    track.style.width = ((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2);
+    track.style.left = ((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2);
+    leftMarker.style.left = track.style.left;
+    rightMarker.style.left = +((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2) + 
+                            +((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2) + "px";
+}
+
+function areNumbersOverlapping() {
+    var leftDOMRect = leftNumber.getBoundingClientRect();
+    var rightDOMRect = rightNumber.getBoundingClientRect();
+    console.log("left: " + leftDOMRect.right + "   right: " + rightDOMRect.left);
+    return leftDOMRect.right + 16 > rightDOMRect.left || leftDOMRect.left + 3 > rightDOMRect.right;
+}
+
+function fixNumbers() {
+    if (areNumbersOverlapping()) {
+        leftNumber.style.top = "-6vw";
+    } else {
+        leftNumber.style.top = 0;
+    }
+}
+        </script>
     </body>
 </html>

@@ -16,8 +16,7 @@ leftNumber.innerHTML = min;
 rightNumber.innerHTML = max;
 document.getElementById("rightBoundaryMarker").style.left = trackWidth;
 
-generatedNumber = 40;
-
+//event listeners
 document.getElementById("closeButton").addEventListener("click", removeMessage);
 document.getElementById("helpButton").addEventListener("click", displayHelp);
 window.addEventListener("resize", fixSliderOnResize);
@@ -39,6 +38,7 @@ function checkNumber() {
 }
 
 function updateTrack() {
+    // (maxValue - minValue) / (trueMaxValue - trueMinValue) * (sliderWidth - thumbWidth) + thumbWidth;
     var newTrackWidth = ((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2);
     var newTrackLeft = ((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2);
     var oneUnit = (1 / (100 - 1) * (trackWidth - 25)).toFixed(2);
@@ -53,7 +53,8 @@ function performAnimation(newTrackWidth, newTrackLeft) {
 
     var currentTrackLeft = getComputedStyle(track).left.substring(0, getComputedStyle(track).left.length-2);
     var currentTrackWidth = getComputedStyle(track).width.substring(0, getComputedStyle(track).width.length-2);
-    if (parseFloat(parseFloat(currentTrackWidth).toFixed(2)) > newTrackWidth) {           
+    if (parseFloat(parseFloat(currentTrackWidth).toFixed(2)) > newTrackWidth) {    
+        //animation "speed" = 3       
         track.style.width = +currentTrackWidth - 3;
         rightMarker.style.left = +currentTrackLeft + +currentTrackWidth + "px";
         if (parseInt(rightNumber.innerHTML) > max) rightNumber.innerHTML = "...";
@@ -65,6 +66,7 @@ function performAnimation(newTrackWidth, newTrackLeft) {
     }
 
     if (parseFloat(parseFloat(currentTrackLeft).toFixed(2)) < newTrackLeft) {
+        //animation "speed" = 3
         track.style.left = +currentTrackLeft + 3;
         repeat = true;
         if (parseInt(leftNumber.innerHTML) < min) leftNumber.innerHTML = "...";
@@ -81,8 +83,6 @@ function performAnimation(newTrackWidth, newTrackLeft) {
         document.getElementById("buttonCheck").disabled = false;
         changePlayerTurn();
         updatePlayerText();
-        leftNumber.style.left = 0;
-        rightNumber.style.left = 0;
         fixNumbers();
         cancelAnimationFrame(raf);
     } 
