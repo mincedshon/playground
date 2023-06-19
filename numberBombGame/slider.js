@@ -15,6 +15,7 @@ var playerTurn = 1;
 leftNumber.innerHTML = min;
 rightNumber.innerHTML = max;
 document.getElementById("rightBoundaryMarker").style.left = trackWidth;
+fixSliderOnResize();
 
 //event listeners
 document.getElementById("closeButton").addEventListener("click", removeMessage);
