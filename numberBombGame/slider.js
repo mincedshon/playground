@@ -6,9 +6,10 @@ var rightMarker = document.getElementById("rightBoundaryMarker");
 var leftNumber = document.getElementById("leftBoundaryNumber");
 var rightNumber = document.getElementById("rightBoundaryNumber");
 var track = document.getElementById("sliderTrack");
+var bar = document.getElementById("bar");
 var message = document.getElementById("message");
 var roundEnd = document.getElementById("roundEnd");
-var trackWidth = track.offsetWidth;
+var trackWidth = bar.offsetWidth;
 var playerTurn = 1;
 
 leftNumber.innerHTML = min;
@@ -19,6 +20,7 @@ generatedNumber = 40;
 
 document.getElementById("closeButton").addEventListener("click", removeMessage);
 document.getElementById("helpButton").addEventListener("click", displayHelp);
+window.addEventListener("resize", fixSliderOnResize);
 
 function checkNumber() {
     var selected = document.getElementById("userThumb").value;
@@ -79,6 +81,9 @@ function performAnimation(newTrackWidth, newTrackLeft) {
         document.getElementById("buttonCheck").disabled = false;
         changePlayerTurn();
         updatePlayerText();
+        leftNumber.style.left = 0;
+        rightNumber.style.left = 0;
+        fixNumbers();
         cancelAnimationFrame(raf);
     } 
 }
@@ -145,3 +150,26 @@ function removeMessage() {
     help.style.display = "none";
 }
 
+function fixSliderOnResize() {
+    trackWidth = bar.offsetWidth;
+    track.style.width = ((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2);
+    track.style.left = ((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2);
+    leftMarker.style.left = track.style.left;
+    rightMarker.style.left = +((max - min) / (100 - 1) * (trackWidth - 25)  + 25).toFixed(2) + 
+                            +((min - 1) / (100 - 1) * (trackWidth - 25)).toFixed(2) + "px";
+}
+
+function areNumbersOverlapping() {
+    var leftDOMRect = leftNumber.getBoundingClientRect();
+    var rightDOMRect = rightNumber.getBoundingClientRect();
+    console.log("left: " + leftDOMRect.right + "   right: " + rightDOMRect.left);
+    return leftDOMRect.right + 16 > rightDOMRect.left || leftDOMRect.left + 3 > rightDOMRect.right;
+}
+
+function fixNumbers() {
+    if (areNumbersOverlapping()) {
+        leftNumber.style.top = "-6vw";
+    } else {
+        leftNumber.style.top = 0;
+    }
+}
