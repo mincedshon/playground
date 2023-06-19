@@ -7,6 +7,7 @@ var leftNumber = document.getElementById("leftBoundaryNumber");
 var rightNumber = document.getElementById("rightBoundaryNumber");
 var track = document.getElementById("sliderTrack");
 var message = document.getElementById("message");
+var roundEnd = document.getElementById("roundEnd");
 var trackWidth = track.offsetWidth;
 var playerTurn = 1;
 
@@ -16,13 +17,16 @@ document.getElementById("rightBoundaryMarker").style.left = trackWidth;
 
 generatedNumber = 40;
 
+document.getElementById("closeButton").addEventListener("click", removeMessage);
+document.getElementById("helpButton").addEventListener("click", displayHelp);
+
 function checkNumber() {
     var selected = document.getElementById("userThumb").value;
     document.getElementById("buttonCheck").disabled = true;
 
     if(selected == generatedNumber) {
         changePlayerTurn();
-        displayMessage();
+        displayRoundEnd();
     } else if (selected >= min && selected <= max) {
         if (selected > generatedNumber) max = +selected-1; 
         if (selected < generatedNumber) min = +selected+1;
@@ -112,7 +116,7 @@ function updatePlayerText() {
 }
 
 function resetGame() {
-    message.style.display = "none";
+    removeMessage();
     min = 1;
     max = 100;
     generatedNumber = Math.floor(Math.random() * 101);
@@ -123,9 +127,21 @@ function resetGame() {
     updatePlayerText();
 }
 
-function displayMessage() {
-    message.style.display = "flex";
+function displayRoundEnd() {
+    message.style.display = "inline";
+    roundEnd.style.display = "flex";
     document.getElementById("bombNumber").innerHTML = "The bomb was hidden at number " + generatedNumber;
     document.getElementById("winner").innerHTML = "Player " + playerTurn + " wins!";
+}
+
+function displayHelp() {
+    message.style.display = "inline";
+    help.style.display = "flex";
+}
+
+function removeMessage() {
+    message.style.display = "none";
+    roundEnd.style.display = "none";
+    help.style.display = "none";
 }
 

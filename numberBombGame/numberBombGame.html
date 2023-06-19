@@ -9,6 +9,7 @@
             <h3>Number Bomb</h3>
             <p id="tagline">Avoid the bomb at all costs!</p>
             <p id="player">Player 1's turn</p>
+            <span id="helpButton">?</span>
         </div>
         <div class="wholeSlider">
             <div class="userValueContainer">
@@ -32,10 +33,27 @@
         <div class="buttonContainer">
             <button onclick="checkNumber()" id="buttonCheck">Select</button>
         </div>
-        <div id="message" style="width:100%">
-            <p id="winner"></p>
-            <p id="bombNumber"></p>
-            <button onclick="resetGame()" id="newGame">New Game</button>
+        <div id="message">
+            <div id="help">
+                <h3>Summary</h3>
+                <ul class="summary">
+                    <li>Number Bomb is a 2 player game</li>
+                    <li>A bomb will be hidden behind a number ranging from 1 - 100</li>
+                    <li>Players will take turns selecting a number</li>
+                    <li>The goal is to avoid the bomb</li>
+                </ul>
+                <h3>How to play</h3>
+                <ul class="howToPlay">
+                    <li>Slide the white circle to select a number</li>
+                    <li>You win if the other player selects the bomb</li>
+                </ul>
+                <span id="closeButton">X</span>
+            </div>
+            <div id="roundEnd">
+                <p id="winner">test</p>
+                <p id="bombNumber">test</p>
+                <button onclick="resetGame()" id="newGame">New Game</button>
+            </div>
         </div>
     </div>
         <script src="slider.js"></script>
