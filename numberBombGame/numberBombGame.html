@@ -4,58 +4,58 @@
         <title>Number Bomb Game</title>
     </head>
     <body>
-    <div class="gameArea">
-        <div class="box">
-            <h3>Number Bomb</h3>
-            <p id="tagline">Avoid the bomb at all costs!</p>
-            <p id="player">Player 1's turn</p>
-            <span id="helpButton">?</span>
-        </div>
-        <div class="wholeSlider">
-            <div class="userValueContainer">
-                <input type="text" onChange="updateThumbThruTextbox()" min="1" max="100" value="50" id="userValue">
+        <div class="gameArea">
+            <div class="box">
+                <h3>Number Bomb</h3>
+                <p id="tagline">Avoid the bomb at all costs!</p>
+                <p id="player">Player 1's turn</p>
+                <span id="helpButton">?</span>
             </div>
-            <div class="sliderBar" id="bar">
-                <div id="sliderTrack"></div>
-            </div>
-            <div class="boundaryMarkers">
-                <div id="leftBoundaryMarker">
-                    <p id="leftBoundaryNumber">test</p>
+            <div class="wholeSlider">
+                <div class="userValueContainer">
+                    <input type="text" onChange="updateThumbThruTextbox()" min="1" max="100" value="50" id="userValue">
                 </div>
-                <div id="rightBoundaryMarker" style="transform: translateX(-100%)">
-                    <p id="rightBoundaryNumber">test</p>
+                <div class="sliderBar" id="bar">
+                    <div id="sliderTrack"></div>
+                </div>
+                <div class="boundaryMarkers">
+                    <div id="leftBoundaryMarker">
+                        <p id="leftBoundaryNumber">test</p>
+                    </div>
+                    <div id="rightBoundaryMarker" style="transform: translateX(-100%)">
+                        <p id="rightBoundaryNumber">test</p>
+                    </div>
+                </div>
+                <div class="userSlider">
+                    <input type="range" oninput="updateTextboxThruThumb()" min="1" max="100" value="50" id="userThumb" step="1">
                 </div>
             </div>
-            <div class="userSlider">
-                <input type="range" oninput="updateTextboxThruThumb()" min="1" max="100" value="50" id="userThumb" step="1">
+            <div class="buttonContainer">
+                <button onclick="checkNumber()" id="buttonCheck">Select</button>
+            </div>
+            <div id="message">
+                <div id="help">
+                    <h3>Summary</h3>
+                    <ul class="summary">
+                        <li>Number Bomb is a 2 player game</li>
+                        <li>A bomb will be hidden behind a number ranging from 1 - 100</li>
+                        <li>Players will take turns selecting a number</li>
+                        <li>The goal is to avoid the bomb</li>
+                    </ul>
+                    <h3>How to play</h3>
+                    <ul class="howToPlay">
+                        <li>Drag the white circle to select a number</li>
+                        <li>You win if the other player selects the bomb</li>
+                    </ul>
+                    <span id="closeButton">X</span>
+                </div>
+                <div id="roundEnd">
+                    <p id="winner">test</p>
+                    <p id="bombNumber">test</p>
+                    <button onclick="resetGame()" id="newGame">New Game</button>
+                </div>
             </div>
         </div>
-        <div class="buttonContainer">
-            <button onclick="checkNumber()" id="buttonCheck">Select</button>
-        </div>
-        <div id="message">
-            <div id="help">
-                <h3>Summary</h3>
-                <ul class="summary">
-                    <li>Number Bomb is a 2 player game</li>
-                    <li>A bomb will be hidden behind a number ranging from 1 - 100</li>
-                    <li>Players will take turns selecting a number</li>
-                    <li>The goal is to avoid the bomb</li>
-                </ul>
-                <h3>How to play</h3>
-                <ul class="howToPlay">
-                    <li>Drag the white circle to select a number</li>
-                    <li>You win if the other player selects the bomb</li>
-                </ul>
-                <span id="closeButton">X</span>
-            </div>
-            <div id="roundEnd">
-                <p id="winner">test</p>
-                <p id="bombNumber">test</p>
-                <button onclick="resetGame()" id="newGame">New Game</button>
-            </div>
-        </div>
-    </div>
         <script src="slider.js"></script>
     </body>
 </html>
